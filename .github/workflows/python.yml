@@ -1,0 +1,38 @@
+name: Python physics (source of truth)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      - name: Run Python unit tests
+        run: python -m pytest -q
+
+      - name: Regenerate golden trajectories
+        run: python -m parity.generate
+
+      - name: Fail if golden is stale
+        # The committed golden.json (which the JS parity suite is checked
+        # against) must always reflect the current Python source. If this diff
+        # is non-empty, someone changed the Python physics without regenerating
+        # the reference — regenerate and commit python/golden/golden.json.
+        run: git diff --exit-code golden/golden.json

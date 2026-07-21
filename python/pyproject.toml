@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "double-pendulum-lab-physics"
+version = "1.0.0"
+description = "Authoritative Python physics core for the Double Pendulum Lab (source of truth for the live JS site)."
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[tool.setuptools]
+packages = ["double_pendulum"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

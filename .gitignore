@@ -1,0 +1,12 @@
+node_modules
+dist
+*.local
+.DS_Store
+tsconfig.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
